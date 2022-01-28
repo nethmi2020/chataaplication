@@ -28,12 +28,12 @@ foreach($result as $row){
     $current_timestamp =date('Y-m-d H:i:s', $current_timestamp);
     $user_last_activity=fetch_user_last_activity($row['id'], $connect);
     if($user_last_activity>$current_timestamp) {
-        $status='<span class="label label-success">Online</span>';
+        $status='<span class="btn btn-success">Online</span>';
 
     }
     else{
 
-        $status='<span class="label label-danger">Offline</span>';
+        $status='<span class="btn btn-danger">Offline</span>';
     }
     $output.='
     <tr>

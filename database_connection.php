@@ -19,7 +19,7 @@ try {
     $query="
     SELECT *FROM login_details
     WHERE user_id='$user_id'
-    ORDER BY last_activity DESc
+    ORDER BY last_activity DESC
     LIMIT 1
     ";
 
