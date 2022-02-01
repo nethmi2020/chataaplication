@@ -18,7 +18,7 @@ if(!isset($_SESSSION['user_id'])){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">7
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat application</title>
@@ -36,7 +36,7 @@ if(!isset($_SESSSION['user_id'])){
 
 </head>
 <body>
-    <div class="container">
+    <div class="container"> 
         <br>
         <h3 align="center" >Chat Application using PHP Ajax Jquery</h3>
         <br>
@@ -91,13 +91,13 @@ if(!isset($_SESSSION['user_id'])){
 
 
          var modal_content = '<div  id="user_dialog'+to_user_id+'" class="user_dialog" title="You have chat with '+to_user_name+'">';        
-            modal_content += '<div style="height:200px; z-index:10;  border:1px solid #ccc; overflow-y: scroll; margin-bottom:24px; padding:16px;" class="chat_history" data-touserid="'+to_user_id+'" id="chat_history_'+to_user_id+'">';
+            modal_content += '<div style="height:200px; z-index:10;  border:1px solid #ccc; overflow-y: scroll; margin-bottom:24px; padding:16px;" class="chat_history" data-touserid="'+to_user_id+'" id="chat_history'+to_user_id+'">';
             modal_content+='</div>';
             modal_content+='<div class="form-group">';
-            modal_content+='<textarea name="chat_message_ '+to_user_id+'" id="chat_message_ '+to_user_id+'" class="form-control"></textarea>';
+            modal_content+='<textarea name="chat_message '+to_user_id+'" id="chat_message'+to_user_id+'" class="form-control"></textarea>';
             modal_content +='</div><div class="form-group" align="right">';
             
-            modal_content +='<button type="button" name="send_chat" id="'+to_user_id+'" class="btn btn-info send_chat">Send</button></div></div>';
+            modal_content +='<button class="send_chat"  type="button" name="send_chat" id="'+to_user_id+'" class="btn btn-info send_chat">Send</button></div></div>';
             // var modal_content='<div style=" height:400px; border:1px solid #ccc; overflow-y:scroll; margin-bottom:24px; padding:16px;">Hi</div>';
             $('#user_model_details').html(modal_content);
 
@@ -109,9 +109,25 @@ if(!isset($_SESSSION['user_id'])){
             make_chat_dialog_box(to_user_id, to_user_name);
             $("#user_dialog" +to_user_id). dialog({
                 autoOpen:true,
-                width:200
+                width:400
             });
             $('#user_dialog'+to_user_id).dialog('open');
+        });
+
+      
+        $(document).on('click','.send_chat', function(){
+         
+            var to_user_id=$(this).attr('id');
+            var chat_message= $('#chat_message' +to_user_id).val();
+            $.ajax({
+                url:"insert_chat.php",
+                method:"POST",
+                data:{to_user_id:to_user_id, chat_message:chat_message},
+                success:function(data){
+                    $('#chat_message' +to_user_id).val('');
+                    $('#chat_history'+to_user_id).html(data);
+                }
+            });
         });
     })
 </script>
