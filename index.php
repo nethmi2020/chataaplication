@@ -59,6 +59,8 @@ if(!isset($_SESSSION['user_id'])){
         setInterval(function(){
             update_last_activity();
             fetch_user();
+         update_chat_history_data()
+
         }, 5000)
 
 
@@ -92,6 +94,7 @@ if(!isset($_SESSSION['user_id'])){
 
          var modal_content = '<div  id="user_dialog'+to_user_id+'" class="user_dialog" title="You have chat with '+to_user_name+'">';        
             modal_content += '<div style="height:200px; z-index:10;  border:1px solid #ccc; overflow-y: scroll; margin-bottom:24px; padding:16px;" class="chat_history" data-touserid="'+to_user_id+'" id="chat_history'+to_user_id+'">';
+           modal_content += fetch_user_chat_history(to_user_id);
             modal_content+='</div>';
             modal_content+='<div class="form-group">';
             modal_content+='<textarea name="chat_message '+to_user_id+'" id="chat_message'+to_user_id+'" class="form-control"></textarea>';
@@ -129,5 +132,26 @@ if(!isset($_SESSSION['user_id'])){
                 }
             });
         });
+
+        function fetch_user_chat_history(to_user_id)
+        {
+            $.ajax({
+                url:"fetch_user_chat_history.php",
+                method:"POST",
+                data:{to_user_id:to_user_id},
+                success:function(data){
+                    $('#chat_history' +to_user_id).html(data);
+                }
+            })
+        }
+
+        function update_chat_history_data(){
+            // each method help to access all html field class name chat_history
+            $('.chat_history').each(function(){
+                
+                var to_user_id=$(this).data('touserid'); //fetch value of data-touserid attribute and store it under to_user_id variable
+                fetch_user_chat_history(to_user_id);
+            })
+        }
     })
 </script>
